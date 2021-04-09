@@ -141,25 +141,25 @@ Autrement dit, le développeur déclare qu’une lecture va être suivie d’une
 | t2| ------ |```SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;```|transaction set , mode isolation totale effectuée|
 | t3| ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem');```|affichage|
 | t4| ------ |```UPDATE EMP SET SAL = 3800 WHERE ENAME ='Mohamed';```|1 row updated |
-| t5| ```Insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,COMM,DEPTNO) values ('9999','Maaoui','Magician',null,to_date('17/02/2021','DD/MM/RR'),null,'10');``` |------|------|
-| t6| ```COMMIT;```|------ |------|
+| t5| ```Insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,COMM,DEPTNO) values ('9999','Maaoui','Magician',null,to_date('17/02/2021','DD/MM/RR'),null,'10');``` |------|1 row created|
+| t6| ```COMMIT;```|------ |Commit de la derniere modification|
 | t7|```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```| ------ |------|
 | t8| ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```|------|
-| t9| ```Commit;``` |------|------|
+| t9| ```Commit;``` |------|Commit de la derniere modification|
 | t10|```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```| ------ |------|
 | t11| ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```|------|
-| t12| ------ | ```COMMIT;```|------|
-| t13| ``` UPDATE EMP SET SAL = 5000 WHERE ENAME ='Maaoui'; ``` |------|------|
-| t14| ------ |```SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;```|------|
-| t15| ------ |```UPDATE EMP SET SAL = 5200 WHERE ENAME ='Maaoui';```|------|
-| t16| ```COMMIT;``` |------|------|
-| t17| ------ |```ROLLBACK;```|------|
-| t18| ------ |```SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;```|------|
+| t12| ------ | ```COMMIT;```|Commit de la derniere modification|
+| t13| ``` UPDATE EMP SET SAL = 5000 WHERE ENAME ='Maaoui'; ``` |------|1 row updated|
+| t14| ------ |```SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;```|transaction set , mode serializable effectué|
+| t15| ------ |```UPDATE EMP SET SAL = 5200 WHERE ENAME ='Maaoui';```|blockage de l'update, ligne verouillée|
+| t16| ```COMMIT;``` |------|commit provoque le devrouillage de la ligne ENAME ='Maaoui'|
+| t17| ------ |```ROLLBACK;```|annuler les modification aprés le dernier commit pour effectuer nouvelle isolation sur la ligne contenant "Maoui" |
+| t18| ------ |```SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;```|mode isolation totale effectuée pour session num 2|
 | t19| ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```|------|
-| t20| ``` UPDATE EMP SET SAL = 5200 WHERE ENAME ='Maaoui'; ``` |------|------|
-| t21| ```COMMIT;``` |------|------|
-| t22| ------ | ```COMMIT;```|------|
-| t23| ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```|------|
+| t20| ``` UPDATE EMP SET SAL = 5200 WHERE ENAME ='Maaoui'; ``` |------|1 row updated|
+| t21| ```COMMIT;``` |------|Commit de la derniere modification|
+| t22| ------ | ```COMMIT;```|Commit de la derniere modification|
+| t23| ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```|affichage des salaires mis a jour avec succès|
 
 
 
